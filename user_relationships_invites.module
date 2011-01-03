@@ -1,0 +1,61 @@
+<?php
+// $Id: Exp $
+
+/**
+ * Drupal Module: User Relationship Invites
+ *
+ * @author Jeff Smick <sprsquish [at] gmail [dot] com>
+ * @author Jeff Warrington <jeff [at] qoolio [dot] org (Drupal 6 port)>
+ * @file
+ *   Automatically create a relationship between inviter and invitee
+ */
+
+/**
+ * Public API to grab the basic invite info
+ *
+ * @param $code
+ *    string of the invite code
+ *
+ * @return
+ *    object with the invite data including the inviter user object and relationship_type object
+*/
+function user_relationships_invites_get_invite($mail) {
+  if ($invite = db_fetch_object(db_query("SELECT * FROM {user_relationships_invites} WHERE mail = '%s'", $mail))) {
+    $invite->inviter = user_load(array('uid' => $invite->inviter_uid));
+    $invite->relationship_type = $invite->rtype;
+  }
+
+  return $invite;
+}
+
+/**
+ * Implementation of hook_invite().
+*/
+function user_relationships_invites_invite($op, $args) {
+  switch ($op) {
+    case 'invite':
+      db_query("INSERT INTO {user_relationships_invites} (inviter_uid, rtype, mail) VALUES (%d, %d, '%s')", $args['inviter']->uid, $args['rtype'], $args['email']);
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_user().
+*/
+function user_relationships_invites_user($op, &$edit, &$account, $category = NULL) {
+  if (!(module_exists('invite') && module_exists('user_relationships_api'))) {
+    return;
+  }
+
+  switch ($op) {
+    case 'insert':
+      $invite = user_relationships_invites_get_invite($edit['mail']);
+      
+      if (is_object($invite)) {
+        user_relationships_request_relationship($invite->inviter, $account, $invite->relationship_type, TRUE);
+        db_query("DELETE FROM {user_relationships_invites} WHERE mail = '%s'", $edit['mail']);
+      }
+      
+      break;
+  }
+}

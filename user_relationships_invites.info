@@ -1,0 +1,8 @@
+name = "User Relationships Invites"
+description = "Automatically creates a relationship for invited users when they register."
+dependencies[] = user_relationships_api
+dependencies[] = user_relationships_ui
+dependencies[] = invite
+core = 6.x
+package = "User Relationships"
+

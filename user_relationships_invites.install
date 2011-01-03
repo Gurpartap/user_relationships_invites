@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ */
+function user_relationships_invites_schema() {
+  $schema['user_relationships_invites'] = array(
+    'fields' => array(
+      'inviter_uid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'rtype' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'mail' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => ''
+      ),
+    ),
+  );
+  
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+*/
+function user_relationships_invites_install() {
+  drupal_install_schema('user_relationships_invites');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function user_relationships_invites_uninstall() {
+  drupal_uninstall_schema('user_relationships_invites');
+}
