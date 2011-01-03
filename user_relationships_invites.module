@@ -1,14 +1,4 @@
 <?php
-// $Id: Exp $
-
-/**
- * Drupal Module: User Relationship Invites
- *
- * @author Jeff Smick <sprsquish [at] gmail [dot] com>
- * @author Jeff Warrington <jeff [at] qoolio [dot] org (Drupal 6 port)>
- * @file
- *   Automatically create a relationship between inviter and invitee
- */
 
 /**
  * Public API to grab the basic invite info

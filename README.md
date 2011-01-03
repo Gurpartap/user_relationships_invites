@@ -3,7 +3,7 @@ User Relationships Invites
 
 user_relationships_invites is a Drupal (http://drupal.org) module to automatically create a relationship for invited users when they register.
 
-This module is completely different from the "user_relationship_invites" module available in the user_relationships suite.
+This module, although inspired from, is completely different from the "user_relationship_invites" module available in the user_relationships suite.
 
 Usage
 -------
